@@ -24,15 +24,28 @@ export class LogsComponent implements OnInit {
     log.logId = this.logIdentify;
     this.logs.unshift(log);
   }
+  editLog(log: Log) {
+    this.logs.forEach((cur, index) => {
+      if (cur.logId === log.logId) {
+        this.logs.splice(index, 1);
+      }
+    });
+    this.logs.unshift(log);
+  }
 
   deleteLog(log: Log): boolean {
 
-    const logIndex = this.logs.indexOf(log);
+    if (confirm('Are you sure from deletion')) {
 
-    if (logIndex !== -1) {
-      this.logs.splice(logIndex, 1);
+      const logIndex = this.logs.indexOf(log);
+
+      if (logIndex !== -1) {
+        this.logs.splice(logIndex, 1);
+      }
+      return true;
+    } else {
+      return false;
     }
-    return true;
   }
 
   editLogEvent(log: Log) {

@@ -11,44 +11,48 @@ import { LogsComponent } from '../logs/logs.component';
 export class AddLogFormComponent implements OnInit {
 
   log: Log = {
-    logName: ''
+    logName: '',
+    logId: 0
   };
-  cancel: boolean;
-  add: boolean;
+
   @ViewChild('logForm') form: any;
   @ViewChild(LogsComponent) logsObj: LogsComponent;
 
   constructor() { }
 
   ngOnInit() {
-    this.cancel =  false;
-    this.add = true;
   }
 
   onSubmit({ value, valid }: { value: Log, valid: boolean}) {
     if (!valid) {
       console.log('form not valid !!!!');
     } else {
-      value.logDate = new Date();
-      this.logsObj.addNewLog(value);
-      this.form.reset();
+      if (this.log.logId > 0) {
+        const editingLog: Log = {
+          logName: this.log.logName,
+          logDate: this.log.logDate,
+          logId: this.log.logId
+        };
+        this.logsObj.editLog(editingLog);
+        this.log.logId = 0;
+        // this.form.reset();
+      } else {
+
+        value.logDate = new Date();
+        this.logsObj.addNewLog(value);
+        this.form.reset();
+      }
     }
   }
 
   editLog($event) {
-    this.log = $event;
-    this.cancel = true;
-    this.add = false;
+    this.log.logName =  $event.logName;
+    this.log.logId =  $event.logId;
+    this.log.logDate =  $event.logDate;
   }
 
   clearEditLog()  {
-    this.cancel = false;
-    this.log = {
-      logName: ''
-    };
     this.form.reset();
-    this.add = true;
-
   }
 
 }

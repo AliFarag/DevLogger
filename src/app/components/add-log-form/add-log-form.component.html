@@ -12,8 +12,8 @@
         <div *ngIf="logNameElement.errors.minlength">Log text length can't be less than 2 char !!!</div>
         <div *ngIf="logNameElement.errors.required">Log text is required</div>
       </div>
-      <input type="submit" [disabled]="!add" name="Add" class="btn btn-success">
-      <button type="button" [disabled]="!cancel" (click)="clearEditLog()" class="btn btn-success">Cancel</button>
+      <input type="submit" [disabled]="log.logName <= 0" name="Add" class="btn btn-success">
+      <button type="button" [hidden]="log.logName <= 0" (click)="clearEditLog()" class="btn btn-success">Cancel</button>
     </div>
   </form>
   <br>
