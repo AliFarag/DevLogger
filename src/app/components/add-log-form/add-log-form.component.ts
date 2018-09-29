@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Log } from '../../models/log';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { LogsComponent } from '../logs/logs.component';
 
 @Component({
   'selector': 'app-add-log-form',
@@ -9,29 +9,20 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 
 export class AddLogFormComponent implements OnInit {
-  logs: Log[];
+
   log: Log = {
     logName: ''
   };
-  logName: string;
+  cancel: boolean;
+  add: boolean;
   @ViewChild('logForm') form: any;
+  @ViewChild(LogsComponent) logsObj: LogsComponent;
 
   constructor() { }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      'logName': new FormControl(
-        this.log.logName, [
-          Validators.required,
-          Validators.minLength(2)
-        ]
-      )
-    });
-
-    this.logs = [{
-      logName: 't1',
-      logDate: new Date()
-    }];
+    this.cancel =  false;
+    this.add = true;
   }
 
   onSubmit({ value, valid }: { value: Log, valid: boolean}) {
@@ -39,9 +30,25 @@ export class AddLogFormComponent implements OnInit {
       console.log('form not valid !!!!');
     } else {
       value.logDate = new Date();
-      this.logs.unshift(value);
+      this.logsObj.addNewLog(value);
       this.form.reset();
     }
+  }
+
+  editLog($event) {
+    this.log = $event;
+    this.cancel = true;
+    this.add = false;
+  }
+
+  clearEditLog()  {
+    this.cancel = false;
+    this.log = {
+      logName: ''
+    };
+    this.form.reset();
+    this.add = true;
+
   }
 
 }

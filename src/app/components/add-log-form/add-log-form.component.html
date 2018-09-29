@@ -9,20 +9,13 @@
       required
       />
       <div class="alert alert-danger" *ngIf="logNameElement.invalid && (logNameElement.touched || logNameElement.dirty)" >
-
         <div *ngIf="logNameElement.errors.minlength">Log text length can't be less than 2 char !!!</div>
         <div *ngIf="logNameElement.errors.required">Log text is required</div>
       </div>
-      <input type="submit" class="btn btn-success">
+      <input type="submit" [disabled]="!add" name="Add" class="btn btn-success">
+      <button type="button" [disabled]="!cancel" (click)="clearEditLog()" class="btn btn-success">Cancel</button>
     </div>
   </form>
   <br>
-  <div class="card" *ngFor="let log of logs">
-    <div class="card-body">
-      {{log.logName}}<p class="bg-danger">{{log.logDate | date:formate}}</p>
-      <button type="button" class="close" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-  </div>
+  <app-logs (editLogEventEmitter)="editLog($event)"></app-logs>
 </div>

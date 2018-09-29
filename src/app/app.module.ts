@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AddLogFormComponent } from './components/add-log-form/add-log-form.component';
+import { LogsComponent } from './components/logs/logs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    AddLogFormComponent
+    AddLogFormComponent,
+    LogsComponent
   ],
   imports: [
     BrowserModule,
